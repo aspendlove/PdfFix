@@ -1,15 +1,28 @@
 <!doctype html>
 <head>
   <title>Pdf Fix</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
+  <link rel="stylesheet" href="/static/css/dist.css" />
 </head>
-<html>
-  <body>
-    <h1>Pdf Fix</h1>
-    <form action="/submit">
-      <label for="pdf-upload">Upload Pdf</label>
-      <input type="file" id="pdf-upload" name="pdf" accept="application/pdf" />
-      <input type="submit" value="Submit" />
-    </form>
+<html class="size-full">
+  <body class="size-full flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center">
+      <h1>Pdf Fix</h1>
+      <form
+        action="/submit"
+        method="post"
+        enctype="multipart/form-data"
+        class="flex flex-col items-center justify-center"
+      >
+        <label for="pdf-upload" class="hidden">Upload Pdf</label>
+        <input
+          type="file"
+          id="pdf-upload"
+          name="pdf"
+          accept="application/pdf"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow text-center"
+        />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
   </body>
 </html>
