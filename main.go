@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"pdf-fix/src/pdf"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,18 +13,6 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
-	router.POST("/submit", func(c *gin.Context) {
-		file, err := c.FormFile("pdf")
-		if err != nil {
-			c.String(http.StatusBadRequest, "get form err: %s", err.Error())
-			return
-		}
-		fmt.Printf("Filename: %s, Size: %d bytes", file.Filename, file.Size)
-
-		dst := "./uploads/" + file.Filename
-		c.SaveUploadedFile(file, dst)
-
-		c.String(http.StatusOK, "File %s uploaded successfully", file.Filename)
-	})
+	router.POST("/submit", pdf.SubmitHandler)
 	router.Run()
 }
