@@ -1,6 +1,6 @@
 package main
 
-	"fmt"
+import (
 	"log"
 	"pdf-fix/src/config"
 	"pdf-fix/src/pdf"
