@@ -18,6 +18,7 @@ RUN sed -i 's/policy domain="coder" rights="none" pattern="PDF"/policy domain="c
 WORKDIR /app
 
 COPY bin/pdf-fix .
+COPY config.yaml .
 
 COPY scripts/ ./scripts/
 COPY static/ ./static/
