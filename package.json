@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/aspendlove/PdfFix#readme",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.18",
     "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18"
   }
 }

@@ -2,12 +2,13 @@
 <head>
   <title>Pdf Fix</title>
   <link rel="stylesheet" href="/static/css/dist.css" />
+  <link rel="stylesheet" href="/static/css/styles.css" />
   <script src="/static/js/script.js"></script>
 </head>
 <html class="size-full">
   <body class="size-full flex flex-col items-center justify-center">
-    <div class="flex flex-col items-center justify-center">
-      <h1>Pdf Fix</h1>
+    <div class="flex flex-col items-center justify-center center-box">
+      <h1 class="text-white font-bold text-7xl">Pdf Fix</h1>
       <form class="flex flex-col items-center justify-center" id="pdf-form">
         <label for="pdf-upload" class="hidden">Upload Pdf</label>
         <input
@@ -15,9 +16,14 @@
           id="pdf-upload"
           name="pdf"
           accept="application/pdf"
-          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow text-center"
+          class="blur-button font-bold py-2 px-4"
         />
-        <input type="submit" value="Submit" />
+        <p id="status" class="hidden font-bold text-3xl"></p>
+        <input
+          type="submit"
+          class="blur-button font-bold py-2 px-4"
+          value="Submit"
+        />
       </form>
     </div>
   </body>
