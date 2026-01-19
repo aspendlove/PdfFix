@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     statusText.hidden = false;
 
     try {
-      const response = await fetch("/submit", {
+      const response = await fetch("submit", {
         method: "POST",
         body: formData,
       });

@@ -36,3 +36,4 @@ uploads/*
 node_modules
 tmp
 pdfTmp/*
+bin

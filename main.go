@@ -8,11 +8,16 @@ import (
 
 func main() {
 	router := gin.Default()
+	router.RedirectTrailingSlash = false
+	router.RedirectFixedPath = false
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "./static")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
 	router.POST("/submit", pdf.SubmitHandler)
+	router.GET("/health", func(c *gin.Context) {
+		c.Status(200)
+	})
 	router.Run()
 }
