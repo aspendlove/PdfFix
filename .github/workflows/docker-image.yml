@@ -6,11 +6,18 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
 
-  build:
-
+  build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - uses: actions/checkout@v4
@@ -25,5 +32,35 @@ jobs:
       with:
         node-version: '22'
 
+    - name: Log in to the Container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build binary and Docker image
       run: make docker-build
+
+    - name: Tag and Push Docker image
+      # Don't push on PRs, only on merge to main
+      if: github.event_name != 'pull_request'
+      run: |
+        # Change all uppercase to lowercase
+        IMAGE_ID=$(echo $REGISTRY/$IMAGE_NAME | tr '[A-Z]' '[a-z]')
+
+        # Strip git ref prefix from version
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+        # Use Docker `latest` tag convention
+        [ "$VERSION" == "main" ] && VERSION=latest
+
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+
+        # Tag the image built by make (pdf-fix:latest) with the registry ID
+        docker tag pdf-fix:latest $IMAGE_ID:$VERSION
+        docker tag pdf-fix:latest $IMAGE_ID:${{ github.sha }}
+
+        docker push $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:${{ github.sha }}

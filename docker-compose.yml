@@ -1,0 +1,16 @@
+services:
+  pdf-fix:
+    # Replace 'aspendlove' with your GitHub username if different.
+    # Note: GHCR images are always lowercase.
+    image: ghcr.io/aspendlove/pdffix:latest
+    container_name: pdf-fix
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - GIN_MODE=release
+    # Optional: Resource limits to match what we discovered in dev
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2048M
