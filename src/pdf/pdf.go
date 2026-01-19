@@ -2,6 +2,7 @@ package pdf
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 
@@ -38,14 +39,28 @@ func SubmitHandler(c *gin.Context) {
 		return
 	}
 	outputFile, err := rasterize(dst)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Processing failed"})
+		return
+	}
+	defer os.Remove(dst)
+	defer os.Remove(outputFile)
+
+	out, err := os.Open(outputFile)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Cannot read output file"})
+		return
+	}
+	defer out.Close()
+
 	c.Header("Content-Description", "File Transfer")
 	c.Header("Content-Transfer-Encoding", "binary")
 	c.Header("Content-Disposition", fmt.Sprintf("inline; filename=fixed_%s.pdf", file.Filename))
 	c.Header("Content-Type", "application/pdf")
-	c.File(outputFile)
-
-	defer os.Remove(dst)
-	defer os.Remove(outputFile)
+	
+	if _, err := io.Copy(c.Writer, out); err != nil {
+		fmt.Printf("Error writing file: %v\n", err)
+	}
 }
 
 func rasterize(filepath string) (string, error) {
@@ -56,7 +71,9 @@ func rasterize(filepath string) (string, error) {
 	cmd := exec.Command(
 		"./scripts/pdfFix.sh", args...,
 	)
-	if err := cmd.Run(); err != nil {
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Script output: %s\n", string(output))
 		return "", fmt.Errorf("Could not rasterize pdf: %w", err)
 	}
 	return outputFile, nil

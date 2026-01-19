@@ -30,5 +30,5 @@ trap clean_up EXIT
 pushd $tmpDir
 
 gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r300 -sOutputFile=temp_%03d.png "$INPUT_FILE"
-magick -density 300 temp_*.png "$OUTPUT_FILE"
+convert -density 300 temp_*.png "$OUTPUT_FILE"
 rm temp_*.png

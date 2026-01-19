@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   pdfForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
 
     const formData = new FormData(pdfForm);
     statusText.innerText = "Processing PDF...";
@@ -12,8 +14,9 @@ document.addEventListener("DOMContentLoaded", function () {
     statusText.hidden = false;
 
     try {
-      const response = await fetch("submit", {
+      const response = await fetch("/api/fix-pdf", {
         method: "POST",
+        redirect: "error",
         body: formData,
       });
 
