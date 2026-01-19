@@ -35,3 +35,9 @@ func SubmitHandler(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"success": "File uploaded successfully"})
 }
+
+func rasterize(filepath string) (string, error) {
+	
+	
+	return "", nil
+}

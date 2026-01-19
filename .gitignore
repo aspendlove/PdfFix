@@ -35,3 +35,4 @@ go.work.sum
 uploads/*
 node_modules
 tmp
+pdfTmp/*
