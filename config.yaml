@@ -1,3 +1,0 @@
-app:
-  max_file_size_mb: 25   # Maximum upload size in Megabytes
-  resolution_dpi: 150    # Rasterization quality (72=Screen, 150=Good, 300=Print)

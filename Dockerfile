@@ -9,16 +9,15 @@ RUN apt update && apt install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 RUN sed -i 's/policy domain="coder" rights="none" pattern="PDF"/policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml && \
-    sed -i 's/policy domain="resource" name="memory" value="256MiB"/policy domain="resource" name="memory" value="2GiB"/' /etc/ImageMagick-6/policy.xml && \
-    sed -i 's/policy domain="resource" name="map" value="512MiB"/policy domain="resource" name="map" value="4GiB"/' /etc/ImageMagick-6/policy.xml && \
-    sed -i 's/policy domain="resource" name="width" value="16KP"/policy domain="resource" name="width" value="128KP"/' /etc/ImageMagick-6/policy.xml && \
-    sed -i 's/policy domain="resource" name="height" value="16KP"/policy domain="resource" name="height" value="128KP"/' /etc/ImageMagick-6/policy.xml && \
-    sed -i 's/policy domain="resource" name="disk" value="1GiB"/policy domain="resource" name="disk" value="8GiB"/' /etc/ImageMagick-6/policy.xml
+  sed -i 's/policy domain="resource" name="memory" value="256MiB"/policy domain="resource" name="memory" value="2GiB"/' /etc/ImageMagick-6/policy.xml && \
+  sed -i 's/policy domain="resource" name="map" value="512MiB"/policy domain="resource" name="map" value="4GiB"/' /etc/ImageMagick-6/policy.xml && \
+  sed -i 's/policy domain="resource" name="width" value="16KP"/policy domain="resource" name="width" value="128KP"/' /etc/ImageMagick-6/policy.xml && \
+  sed -i 's/policy domain="resource" name="height" value="16KP"/policy domain="resource" name="height" value="128KP"/' /etc/ImageMagick-6/policy.xml && \
+  sed -i 's/policy domain="resource" name="disk" value="1GiB"/policy domain="resource" name="disk" value="8GiB"/' /etc/ImageMagick-6/policy.xml
 
 WORKDIR /app
 
 COPY bin/pdf-fix .
-COPY config.yaml .
 
 COPY scripts/ ./scripts/
 COPY static/ ./static/

@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	cfg, err := config.LoadConfig("config.yaml")
+	cfg, err := config.LoadConfig("config.yml")
 	if err != nil {
-		log.Fatalf("Failed to load config: %v", err)
+		log.Printf("Failed to load config file, falling back to defaults\n")
 	}
 
 	router := gin.New()
