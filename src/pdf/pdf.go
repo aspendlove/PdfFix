@@ -1,6 +1,10 @@
 package pdf
 
 import (
+	"fmt"
+	"os"
+	"os/exec"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -33,11 +37,27 @@ func SubmitHandler(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "Cannot save file"})
 		return
 	}
-	c.JSON(200, gin.H{"success": "File uploaded successfully"})
+	outputFile, err := rasterize(dst)
+	c.Header("Content-Description", "File Transfer")
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.Header("Content-Disposition", fmt.Sprintf("inline; filename=fixed_%s.pdf", file.Filename))
+	c.Header("Content-Type", "application/pdf")
+	c.File(outputFile)
+
+	defer os.Remove(dst)
+	defer os.Remove(outputFile)
 }
 
 func rasterize(filepath string) (string, error) {
-	
-	
-	return "", nil
+	outputFile := uuid.New().String() + ".pdf"
+	args := []string{
+		"./pdfTmp", filepath, outputFile,
+	}
+	cmd := exec.Command(
+		"./scripts/pdfFix.sh", args...,
+	)
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("Could not rasterize pdf: %w", err)
+	}
+	return outputFile, nil
 }
